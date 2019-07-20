@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	calculator "PennyBudgetCalculator/calculator"
+	"github.com/willdot/PennySavingsCalculator/calculator"
 
 	"github.com/gorilla/mux"
 )
