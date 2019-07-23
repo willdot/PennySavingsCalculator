@@ -1,5 +1,7 @@
 .DS_Store
 .vscode
+
 PennySavingsCalculator
 
 DailyPennySavingsCalculator/package-lock.json
+PennySavingsCalculator.exe
