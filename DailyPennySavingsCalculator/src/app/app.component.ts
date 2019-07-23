@@ -8,6 +8,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'DailyPennySavingsCalculator';
 
+  total = 0;
+
   public minDate: Date = new Date ("01/01/2019");
   public maxDate: Date = new Date ("01/01/2025");
   public startDateValue: Date = new Date ();
@@ -16,7 +18,7 @@ export class AppComponent {
   date: Date ;
 
   onGoClicked(): void {
-    console.log(this.startDateValue);
+    
   }
 
   onStartChange(args) {
