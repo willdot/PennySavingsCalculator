@@ -11,6 +11,7 @@ import (
 	"github.com/willdot/PennySavingsCalculator/calculator"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 type request struct {
@@ -24,15 +25,23 @@ func main() {
 	if PORT = os.Getenv("PORT"); PORT == "" {
 		PORT = "8080"
 	}
+	
 	router := mux.NewRouter()
 
 	router.HandleFunc("/calculate", GetBudget)
 
-	err := http.ListenAndServe(":"+PORT, router)
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:4200"},
+	  })
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	handler := c.Handler(router)
+
+	srv := &http.Server{
+		Handler: handler,
+		Addr:    ":" + PORT,
+	  }
+	
+	  log.Fatal(srv.ListenAndServe())
 }
 
 // GetBudget takes a start and end date and returns how much to save in that period

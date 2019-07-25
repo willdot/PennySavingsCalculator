@@ -1,4 +1,4 @@
 export interface IRequest {
-    startDate: Date;
-    endDate: Date;
+    start: Date;
+    end: Date;
 }

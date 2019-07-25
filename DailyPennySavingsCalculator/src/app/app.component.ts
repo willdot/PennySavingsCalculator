@@ -17,8 +17,8 @@ export class AppComponent {
 
   total = '';
 
-  public minDate: Date = new Date ("01/01/2019");
-  public maxDate: Date = new Date ("01/01/2025");
+  public minDate: Date = new Date ('01/01/2019');
+  public maxDate: Date = new Date ('01/01/2025');
   public startDateValue: Date = new Date ();
   public endDateValue: Date = new Date ();
 
@@ -27,13 +27,13 @@ export class AppComponent {
   onGoClicked(): void {
 
     const req: IRequest = {
-      startDate: this.startDateValue,
-      endDate: this.endDateValue
+      start: this.startDateValue,
+      end: this.endDateValue
     };
 
 
     this.calculatorService.calculate(req).subscribe(
-      response => this.total = response.result
+      response => this.total = response
     );
 
   }
