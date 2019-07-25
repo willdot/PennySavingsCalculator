@@ -18,7 +18,7 @@ export class AppComponent {
   date: Date ;
 
   onGoClicked(): void {
-    
+    this.total = 9;
   }
 
   onStartChange(args) {
