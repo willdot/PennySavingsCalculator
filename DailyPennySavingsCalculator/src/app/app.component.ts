@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CalculatorService } from './_services/calculator.service';
+import { IRequest } from './_models/request';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +8,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  constructor(private calculatorService: CalculatorService) {
+
+  }
+
   title = 'DailyPennySavingsCalculator';
 
-  total = 0;
+  total = '';
 
   public minDate: Date = new Date ("01/01/2019");
   public maxDate: Date = new Date ("01/01/2025");
@@ -18,7 +25,17 @@ export class AppComponent {
   date: Date ;
 
   onGoClicked(): void {
-    this.total = 9;
+
+    const req: IRequest = {
+      startDate: this.startDateValue,
+      endDate: this.endDateValue
+    };
+
+
+    this.calculatorService.calculate(req).subscribe(
+      response => this.total = response.result
+    );
+
   }
 
   onStartChange(args) {

@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CalculatorService } from './_services/calculator.service';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -11,9 +14,12 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DatePickerModule
+    DatePickerModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    CalculatorService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
