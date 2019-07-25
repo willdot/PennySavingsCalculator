@@ -32,7 +32,6 @@ func main() {
 
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{
-			"http://localhost:4200",
 			"https://1pdailysavingscalculatorapp.azurewebsites.net",
 	},
 	  })
