@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CalculatorService } from './_services/calculator.service';
 import { IRequest } from './_models/request';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent {
   title = 'DailyPennySavingsCalculator';
 
   total = '';
+  errorMessage = '';
 
   public minDate: Date = new Date ('01/01/2019');
   public maxDate: Date = new Date ('01/01/2025');
@@ -32,8 +34,16 @@ export class AppComponent {
     };
 
 
-    this.calculatorService.calculate(req).subscribe(
-      response => this.total = response
+    this.calculatorService.calculate(req).subscribe(response => {
+        this.total = response;
+        this.errorMessage = '';
+      },
+      error => {
+        const message: HttpErrorResponse = <any>error;
+
+        this.errorMessage = message.error;
+        this.total = '';
+      }
     );
 
   }

@@ -5,3 +5,4 @@ PennySavingsCalculator
 
 DailyPennySavingsCalculator/package-lock.json
 PennySavingsCalculator.exe
+DailyPennySavingsCalculator/src/environments/environment.prod.ts

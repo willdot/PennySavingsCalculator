@@ -15,8 +15,8 @@
 <div class='panel-body'>
     <div class='container'>
         <div class='row'>
-          <div class='col-md-4'>
-              <label>Date to start (will include this day in calculation)</label>
+          <div class='col-md-2'>
+              <label>Date to start</label>
           </div>
             <div class='col-md-2'>     
               <ejs-datepicker id='start' (change)='onStartChange($event)' placeholder='Select start date' [value]='startDateValue' [min]='minDate' [max]='maxDate' format ='dd-MM-yyyy'></ejs-datepicker>
@@ -28,8 +28,8 @@
         </div>
 
         <div class='row'>
-            <div class='col-md-4'>
-                <label>Date to finish (will NOT include this day in calculation)</label>
+            <div class='col-md-2'>
+                <label>Date to finish</label>
             </div>
             <div class='col-md-2'>
               <ejs-datepicker id='end' (change)='onEndChange($event)' placeholder='Select end date' [value]='endDateValue' [min]='minDate' [max]='maxDate' format ='dd-MM-yyyy'></ejs-datepicker>
@@ -48,16 +48,15 @@
             </button>
           </div>
 
-          <div *ngIf="total!='0'" class='col-md-4'>
+          <div *ngIf="total!=''" class='col-md-4'>
             <label>You will deposit: {{total}}</label>
+          </div>
+
+          <div *ngIf="errorMessage!=''" class='col-md-4'>
+            <label class='warning'>Error: {{errorMessage}}</label>
           </div>
         </div>
     </div>
 </div>
-
-
-
-
-
 
 <router-outlet></router-outlet>

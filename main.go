@@ -31,7 +31,10 @@ func main() {
 	router.HandleFunc("/calculate", GetBudget)
 
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:4200"},
+		AllowedOrigins: []string{
+			"http://localhost:4200",
+			"https://1pdailysavingscalculatorapp.azurewebsites.net",
+	},
 	  })
 
 	handler := c.Handler(router)
