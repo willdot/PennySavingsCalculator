@@ -1,24 +1,21 @@
-# We specify the base image we need for our
-# go application
+# Specify the base image needed for the Go application
 FROM golang:1.12
-# We create an /app directory within our
-# image that will hold our application source
-# files
+
+# Create an /app directory within the image that will hold the application
+# source files
 RUN mkdir /app
-# We copy everything in the root directory
-# into our /app directory
+
+# Copy everything in the root directory into the /app directory
 ADD . /app
-# We specify that we now wish to execute 
-# any further commands inside our /app
-# directory
+
+# Specify that all other commands will now come from within the /app directory
 WORKDIR /app
 
 # Go get dependancies
 RUN go get -d -v ./...
 
-# we run go build to compile the binary
-# executable of our Go program
+# Run go build to compile the binary executable of the Go program
 RUN go build -o main .
-# Our start command which kicks off
-# our newly created binary executable
+
+# Start command that will run the program
 CMD ["/app/main"]
