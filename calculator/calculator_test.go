@@ -87,6 +87,12 @@ func TestCalculateDaysBetween(t *testing.T) {
 			28,
 		},
 		{
+			"1st Jan to 31st dec - leap year",
+			time.Date(2020, time.Month(1), 1, 0, 0, 0, 0, time.UTC),
+			time.Date(2020, time.Month(12), 31, 0, 0, 0, 0, time.UTC),
+			366,
+		},
+		{
 			"1st Jan to 31st dec",
 			time.Date(2019, time.Month(1), 1, 0, 0, 0, 0, time.UTC),
 			time.Date(2019, time.Month(12), 31, 0, 0, 0, 0, time.UTC),
