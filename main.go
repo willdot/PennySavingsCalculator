@@ -25,7 +25,7 @@ func main() {
 	if PORT = os.Getenv("PORT"); PORT == "" {
 		PORT = "8080"
 	}
-	
+
 	router := mux.NewRouter()
 
 	router.HandleFunc("/calculate", GetBudget)
@@ -33,17 +33,16 @@ func main() {
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{
 			"https://1pdailysavingscalculatorapp.azurewebsites.net",
-	},
-	  })
+		},
+	})
 
 	handler := c.Handler(router)
 
-	srv := &http.Server{
-		Handler: handler,
-		Addr:    ":" + PORT,
-	  }
-	
-	  log.Fatal(srv.ListenAndServe())
+	err := http.ListenAndServe(":"+PORT, handler)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 // GetBudget takes a start and end date and returns how much to save in that period
