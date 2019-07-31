@@ -67,6 +67,22 @@ func TestGetBudgetHandler(t *testing.T) {
 		}
 	})
 
+	t.Run("Send body but start year different to end year and returns an error", func(t *testing.T) {
+		body := fmt.Sprintf(`
+		{
+			"Start" : "2020-01-01T00:00:00Z",
+			"End" : "2019-01-02T00:00:00Z"
+		}`)
+
+		rr := httptest.NewRecorder()
+
+		makeRequest(t, body, rr)
+
+		if status := rr.Code; status != http.StatusBadRequest {
+			t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+		}
+	})
+
 	t.Run("No body, returns 400 status code", func(t *testing.T) {
 
 		rr := httptest.NewRecorder()

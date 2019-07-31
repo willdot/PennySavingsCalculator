@@ -178,3 +178,31 @@ func TestCalculateStartDateOfYear(t *testing.T) {
 		})
 	}
 }
+
+func TestCalculateCostOfDaysButStartDateAfterEndDate(t *testing.T) {
+
+	want := ErrStartDateAfterEndDate
+
+	start := time.Date(2019, time.Month(1), 02, 0, 0, 0, 0, time.UTC)
+	end := time.Date(2019, time.Month(1), 01, 0, 0, 0, 0, time.UTC)
+
+	_, err := CalculateHowMuchToSaveBetweenDays(start, end)
+
+	if err != want {
+		t.Errorf("got %v, want %v", err, want)
+	}
+}
+
+func TestCalculateCostOfDaysButDatesInDifferentYears(t *testing.T) {
+
+	want := ErrDatesHaveDifferentYears
+
+	start := time.Date(2019, time.Month(1), 02, 0, 0, 0, 0, time.UTC)
+	end := time.Date(2020, time.Month(1), 01, 0, 0, 0, 0, time.UTC)
+
+	_, err := CalculateHowMuchToSaveBetweenDays(start, end)
+
+	if err != want {
+		t.Errorf("got %v, want %v", err, want)
+	}
+}
