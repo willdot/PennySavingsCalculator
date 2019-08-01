@@ -8,9 +8,11 @@ import (
 	"testing"
 )
 
+const serverAPIKey = "abc"
+
 func TestGetBudgetHandler(t *testing.T) {
 
-	makeRequest := func(t *testing.T, body string, rr *httptest.ResponseRecorder) {
+	makeRequest := func(t *testing.T, body, apiKey string, rr *httptest.ResponseRecorder) {
 
 		t.Helper()
 
@@ -21,7 +23,8 @@ func TestGetBudgetHandler(t *testing.T) {
 		}
 
 		req.Header.Set("Content-Type", "application/json")
-		handler := http.HandlerFunc(GetBudget)
+		req.Header.Set("ApiKey", apiKey)
+		handler := http.HandlerFunc(CheckAPIKey(serverAPIKey, GetBudget()))
 
 		handler.ServeHTTP(rr, req)
 	}
@@ -35,7 +38,7 @@ func TestGetBudgetHandler(t *testing.T) {
 
 		rr := httptest.NewRecorder()
 
-		makeRequest(t, body, rr)
+		makeRequest(t, body, serverAPIKey, rr)
 
 		if status := rr.Code; status != http.StatusOK {
 			t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
@@ -60,7 +63,7 @@ func TestGetBudgetHandler(t *testing.T) {
 
 		rr := httptest.NewRecorder()
 
-		makeRequest(t, body, rr)
+		makeRequest(t, body, serverAPIKey, rr)
 
 		if status := rr.Code; status != http.StatusBadRequest {
 			t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
@@ -76,10 +79,20 @@ func TestGetBudgetHandler(t *testing.T) {
 
 		rr := httptest.NewRecorder()
 
-		makeRequest(t, body, rr)
+		makeRequest(t, body, serverAPIKey, rr)
 
 		if status := rr.Code; status != http.StatusBadRequest {
 			t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusOK)
+		}
+	})
+
+	t.Run("Sent API key doesn't match server API key, 403 returned", func(t *testing.T) {
+		rr := httptest.NewRecorder()
+
+		makeRequest(t, "", "wrong key", rr)
+
+		if status := rr.Code; status != http.StatusForbidden {
+			t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusBadRequest)
 		}
 	})
 
@@ -87,7 +100,7 @@ func TestGetBudgetHandler(t *testing.T) {
 
 		rr := httptest.NewRecorder()
 
-		makeRequest(t, "", rr)
+		makeRequest(t, "", serverAPIKey, rr)
 
 		if status := rr.Code; status != http.StatusBadRequest {
 			t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusBadRequest)
@@ -104,7 +117,7 @@ func TestGetBudgetHandler(t *testing.T) {
 
 		rr := httptest.NewRecorder()
 
-		makeRequest(t, body, rr)
+		makeRequest(t, body, serverAPIKey, rr)
 
 		if status := rr.Code; status != http.StatusBadRequest {
 			t.Errorf("handler returned wrong status code: got %v want %v", status, http.StatusBadRequest)

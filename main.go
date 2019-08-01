@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -21,14 +22,20 @@ type request struct {
 
 func main() {
 
-	var PORT string
-	if PORT = os.Getenv("PORT"); PORT == "" {
-		PORT = "8080"
+	var port string
+	if port = os.Getenv("PORT"); port == "" {
+		port = "8080"
+	}
+
+	var apiKey string
+	if apiKey = os.Getenv("APIKEY"); apiKey == "" {
+		log.Fatal(errors.New("No api key set"))
+		return
 	}
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/calculate", GetBudget)
+	router.HandleFunc("/calculate", CheckAPIKey(apiKey, GetBudget()))
 
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{
@@ -38,7 +45,7 @@ func main() {
 
 	handler := c.Handler(router)
 
-	err := http.ListenAndServe(":"+PORT, handler)
+	err := http.ListenAndServe(":"+port, handler)
 
 	if err != nil {
 		log.Fatal(err)
@@ -46,27 +53,40 @@ func main() {
 }
 
 // GetBudget takes a start and end date and returns how much to save in that period
-func GetBudget(w http.ResponseWriter, r *http.Request) {
+func GetBudget() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 
-	var req request
+		var req request
 
-	decoder := json.NewDecoder(r.Body)
+		decoder := json.NewDecoder(r.Body)
 
-	err := decoder.Decode(&req)
+		err := decoder.Decode(&req)
 
-	if err != nil {
-		http.Error(w, err.Error(), 400)
-		return
+		if err != nil {
+			http.Error(w, err.Error(), 400)
+			return
+		}
+
+		amount, err := calculator.CalculateHowMuchToSaveBetweenDays(req.Start, req.End)
+
+		if err != nil {
+			http.Error(w, err.Error(), 400)
+			return
+		}
+
+		result := fmt.Sprintf("£%v", float64(amount)/100)
+
+		json.NewEncoder(w).Encode(result)
 	}
+}
 
-	amount, err := calculator.CalculateHowMuchToSaveBetweenDays(req.Start, req.End)
-
-	if err != nil {
-		http.Error(w, err.Error(), 400)
-		return
-	}
-
-	result := fmt.Sprintf("£%v", float64(amount)/100)
-
-	json.NewEncoder(w).Encode(result)
+// CheckAPIKey makes sure the origin is correct. I only want my api to be accessible from the front end I create
+func CheckAPIKey(apiKey string, h http.Handler) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("ApiKey") != apiKey {
+			http.Error(w, errors.New("Api key not valid").Error(), http.StatusForbidden)
+			return
+		}
+		h.ServeHTTP(w, r)
+	})
 }
