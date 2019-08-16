@@ -65,7 +65,7 @@ func GetBudget(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result := fmt.Sprintf("£%v", float64(amount)/100)
+	result := fmt.Sprintf("£%.2f", float64(amount)/100)
 
 	json.NewEncoder(w).Encode(result)
 }
