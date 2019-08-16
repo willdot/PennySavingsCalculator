@@ -10,7 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
-	"github.com/willdot/PennySavingsCalculator/calculator"
+	"github.com/willdot/PennySavingsCalculator/backend/calculator"
 )
 
 type request struct {
