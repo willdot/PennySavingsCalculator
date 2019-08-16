@@ -8,10 +8,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/willdot/PennySavingsCalculator/calculator"
-
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"github.com/willdot/PennySavingsCalculator/calculator"
 )
 
 type request struct {
