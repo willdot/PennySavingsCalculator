@@ -1,18 +1,28 @@
 # Specify the base image needed for the Go application
 FROM golang:1.12
 
+ENV GO111MODULE=on
+
 # Create an /app directory within the image that will hold the application
 # source files
-RUN mkdir /app
+#RUN mkdir /app
 
 # Copy everything in the root directory into the /app directory
-ADD . /app
+#ADD . /app
 
 # Specify that all other commands will now come from within the /app directory
 WORKDIR /app
 
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod download
+
+COPY . .
+
+
 # Go get dependancies
-RUN go get -d -v ./...
+#RUN go get -d -v ./...
 
 # Run go build to compile the binary executable of the Go program
 RUN go build -o main .
