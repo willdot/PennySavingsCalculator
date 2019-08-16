@@ -11,7 +11,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
-	"github.com/willdot/PennySavingsCalculator/calculator"
+	"github.com/willdot/PennySavingsCalculator/backend/calculator"
 )
 
 type request struct {
@@ -73,7 +73,7 @@ func GetBudget() http.HandlerFunc {
 			return
 		}
 
-		result := fmt.Sprintf("£%v", float64(amount)/100)
+		result := fmt.Sprintf("£%.2f", float64(amount)/100)
 
 		json.NewEncoder(w).Encode(result)
 	}

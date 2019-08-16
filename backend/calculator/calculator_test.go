@@ -126,6 +126,12 @@ func TestCalculateCostOfDays(t *testing.T) {
 			3,
 		},
 		{
+			"1st Jan to 4th Jan",
+			1,
+			4,
+			10,
+		},
+		{
 			"1st Feb to 28th feb",
 			32,
 			59,

@@ -1,4 +1,4 @@
-module github.com/willdot/PennySavingsCalculator
+module github.com/willdot/PennySavingsCalculator/backend
 
 go 1.12
 
