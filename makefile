@@ -5,7 +5,7 @@ pushFrontEnd:
 	docker push willdot/pennybudgetcalculatorapp:latest
 
 buildBackEnd:
-	docker build -f "dockerfile" -t willdot/pennybudgetcalculator .
+	docker build -f "backend/dockerfile" -t willdot/pennybudgetcalculator ./backend
 
 pushBackEnd:
 	docker push willdot/pennybudgetcalculator:latest

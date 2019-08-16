@@ -1,8 +1,8 @@
 .DS_Store
 .vscode
 
-PennySavingsCalculator
+backend/PennySavingsCalculator
 
 DailyPennySavingsCalculator/package-lock.json
-PennySavingsCalculator.exe
+backend/PennySavingsCalculator.exe
 DailyPennySavingsCalculator/src/environments/environment.prod.ts
